@@ -10,6 +10,7 @@
         <entry key="..\:/AndroidStudioProject/APPTest/app/src/main/res/layout-w1240dp/activity_register.xml" value="0.1" />
         <entry key="..\:/AndroidStudioProject/APPTest/app/src/main/res/layout-w936dp/activity_login.xml" value="0.1" />
         <entry key="..\:/AndroidStudioProject/APPTest/app/src/main/res/layout-w936dp/activity_register.xml" value="0.1" />
+        <entry key="..\:/AndroidStudioProject/APPTest/app/src/main/res/layout/activity_clock.xml" value="0.536" />
         <entry key="..\:/AndroidStudioProject/APPTest/app/src/main/res/layout/activity_login.xml" value="0.25" />
         <entry key="..\:/AndroidStudioProject/APPTest/app/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="..\:/AndroidStudioProject/APPTest/app/src/main/res/layout/activity_register.xml" value="0.1" />
@@ -30,7 +31,7 @@
   <component name="VisualizationToolProject">
     <option name="state">
       <ProjectState>
-        <option name="scale" value="0.1" />
+        <option name="scale" value="0.536" />
       </ProjectState>
     </option>
   </component>

@@ -1,12 +1,20 @@
 package com.example.app1.ui.home;
 
+import android.app.AlertDialog;
+import android.app.TimePickerDialog;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.os.CountDownTimer;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -16,14 +24,18 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.app1.DatabaseHelper;
+import com.example.app1.MainActivity;
 import com.example.app1.R;
 import com.example.app1.databinding.FragmentHomeBinding;
+import com.example.app1.ui.Clock;
 
-public class HomeFragment extends Fragment {
+public class HomeFragment extends Fragment implements View.OnClickListener{
     private HomeViewModel homeViewModel;
     private FragmentHomeBinding binding;
-    Button deltab,newtab;
-    private DatabaseHelper dbHelper;
+    protected Context mContext;
+    private TextView mClock;
+
+
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -32,31 +44,9 @@ public class HomeFragment extends Fragment {
 
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
-        deltab=binding.delTab;
-        newtab=binding.newTab;
-        dbHelper = new DatabaseHelper(getContext(),"UserInfo.dp",null,2);
-
-        deltab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                SQLiteDatabase db = dbHelper.getReadableDatabase();
-                String sq ="drop table if exists UserInfo";
-                db.execSQL(sq);
-            }
-        });
-        newtab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                SQLiteDatabase db = dbHelper.getReadableDatabase();
-                String CREATE_USERINFO="Create table UserInfo("
-                        +"id integer primary key autoincrement,"
-                        +"username text not null,"
-                        +"userimg text ,"
-                        +"phone text not null,"
-                        +"password text not null)";
-                db.execSQL(CREATE_USERINFO);
-            }
-        });
+        mContext = getActivity();
+        mClock = binding.tvClock;
+        mClock.setOnClickListener(this);
 //        final TextView textView = binding.textHome;
 //        homeViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
 //            @Override
@@ -64,8 +54,15 @@ public class HomeFragment extends Fragment {
 //                textView.setText(s);
 //            }
 //        });
-
         return root;
+    }
+    @Override
+    public void onClick(View view) {
+        if (view.getId()==R.id.tv_clock){
+            Intent intent = new Intent(mContext, Clock.class);
+            startActivity(intent);
+
+        }
     }
 
     @Override
