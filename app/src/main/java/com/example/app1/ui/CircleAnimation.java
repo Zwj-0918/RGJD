@@ -3,6 +3,7 @@ package com.example.app1.ui;
 import android.content.Context;
 import android.graphics.Paint;
 import android.graphics.RectF;
+import android.util.Log;
 import android.view.View;
 import android.widget.RelativeLayout;
 
@@ -41,6 +42,7 @@ public class CircleAnimation extends RelativeLayout {
         mDrawingAngle = 0;
         mDrawTimes = mEndAngle/mRate;
         mFactor = mDrawTimes/mInterval +1;
+        Log.d(TAG,"mDrawTimes="+mDrawTimes+",mInterval="+mInterval+",mFactor"+mFactor);
     }
 
     private class FrontView extends View{
