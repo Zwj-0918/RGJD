@@ -1,0 +1,27 @@
+<resources>
+    <string name="app_name">APP1</string>
+    <!-- Strings related to login -->
+    <string name="prompt_username">用户名</string>
+    <string name="prompt_phone">电话</string>
+    <string name="prompt_password">密码</string>
+    <string name="prompt_repassword">确认密码</string>
+    <string name="action_sign_in">登录</string>
+    <string name="action_register">注册</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="action_registetr_short">Register</string>
+    <string name="welcome">"你好！"</string>
+    <string name="register_success">"注册成功！去登录吧！"</string>
+    <string name="invalid_phone">请输入正确的手机号</string>
+    <string name="invalid_phn">该手机号已注册过</string>
+    <string name="invalid_username">请输入正确的用户名</string>
+    <string name="invalid_password">密码必需大于5位</string>
+    <string name="incorrect_repassword">两次输入的密码不相同</string>
+    <string name="login_failed">"登录失败！"</string>
+    <string name="register_failed">"注册失败！"</string>
+    <string name="title_activity_register">注册</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="title_home">首页</string>
+    <string name="title_dashboard">自律</string>
+    <string name="title_notifications">个人</string>
+
+</resources>
