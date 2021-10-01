@@ -33,6 +33,7 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
+
     private ActivityMainBinding binding;
     private BottomNavigationItemView mhome, mdash, mperson;
     private static final String CURRENT_FRAGMENT = "STATE_FRAGMENT_SHOW";
