@@ -37,6 +37,10 @@ public class CircleAnimation extends RelativeLayout {
     }
 
     private void play() {
+        mSeq = 0;
+        mDrawingAngle = 0;
+        mDrawTimes = mEndAngle/mRate;
+        mFactor = mDrawTimes/mInterval +1;
     }
 
     private class FrontView extends View{

@@ -13,7 +13,7 @@
         app:layout_constraintLeft_toLeftOf="parent"
         android:textSize="60dp"
         android:textAlignment="center"
-        android:background="@color/purple_200"
+        android:background="@color/tomato"
         tools:ignore="MissingConstraints" />
     <Button
         android:id="@+id/btn_settime"
