@@ -16,29 +16,35 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import com.example.app1.MainActivity;
 import com.example.app1.R;
 import com.example.app1.tools.CircleAnimation;
 import com.example.app1.tools.CountDown;
 
-//通知推送
+//问题：通知推送
 public class Clock extends AppCompatActivity implements View.OnClickListener{
-    private TextView showtime;
+    private TextView showtime,mtv_setTime,mtv_setRest,mtv_setTimes;
     private Button mbtn_start;
     private Button mbtn_exit;
-    private Button msetTime,msetRest,msetTimes;
-
+    private SeekBar msb_setTime,msb_setRest,msb_Times;
 
     boolean isExit=false;
     CountDown timer;
     //以分钟为单位
-    long time;
-    long sHour=0,sMinute=0,sSecond;
+    long time,rtime;
+    //操作数据
+    long sHour=0,sMinute=0,sSecond=0;
 
-    long mTime,mRest,mTimes=1;
+    long mTime=0,mRest=0,mTimes=1;
+
+    //保留输入
+    long mHour=0,mMinute=25,mSecond=0;
+    long rHour=0,rMinute=0,rSecond=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,16 +58,85 @@ public class Clock extends AppCompatActivity implements View.OnClickListener{
         mbtn_exit=findViewById(R.id.btn_exit);
         mbtn_exit.setOnClickListener(this);
 
-        msetTime=findViewById(R.id.btn_settime);
-        msetTime.setOnClickListener(this);
+        mtv_setTime=findViewById(R.id.tv_setTime);
+        mtv_setRest=findViewById(R.id.tv_setRest);
+        mtv_setTimes=findViewById(R.id.tv_setTimes);
+        msb_setTime=findViewById(R.id.sb_setTime);
+        msb_setRest=findViewById(R.id.sb_setRest);
+        msb_Times=findViewById(R.id.sb_setTimes);
+        mtv_setTime.setText("专注时间："+(mHour>=10?mHour:"0"+mHour)+"时"+(mMinute>=10?mMinute:"0"+mMinute)+"分");
+        mtv_setRest.setText("休息时间："+(rHour>=10?rHour:"0"+rHour)+"时"+(rMinute>=10?rMinute:"0"+rMinute)+"分");
+        msb_setTime.setProgress(250/18);
+        msb_setRest.setProgress(100);
+        msb_setTime.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+                mTime=seekBar.getProgress()*3*60/100;
+                mHour=mTime/60;
+                mMinute=mTime-mHour*60;
+                mtv_setTime.setText("专注时间："+(mHour>=10?mHour:"0"+mHour)+"时"+(mMinute>=10?mMinute:"0"+mMinute)+"分");
 
-        msetRest=findViewById(R.id.btn_setrest);
-        msetRest.setOnClickListener(this);
+                mRest= mTime*2/5;
+                rHour=mRest/60;
+                rMinute=mRest-rHour*60;
+                mtv_setRest.setText("休息时间："+(rHour>=10?rHour:"0"+rHour)+"时"+(rMinute>=10?rMinute:"0"+rMinute)+"分");
 
-        msetTimes=findViewById(R.id.btn_settimes);
-        msetTimes.setOnClickListener(this);
+                time=mHour*60+mMinute;
+                time*=60000;
+            }
 
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
 
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                Log.d("setTime","seekBar:"+seekBar.getProgress());
+            }
+        });
+
+        msb_setRest.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+                mRest= mTime*seekBar.getProgress()/250;
+                rHour=mRest/60;
+                rMinute=mRest-rHour*60;
+                mtv_setRest.setText("休息时间："+(rHour>=10?rHour:"0"+rHour)+"时"+(rMinute>=10?rMinute:"0"+rMinute)+"分");
+
+                rtime=rHour*60+rMinute;
+                rtime*=60000;
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                Log.d("setRest","seekBar:"+seekBar.getProgress());
+
+            }
+        });
+
+        msb_Times.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+                mTimes = seekBar.getProgress()/10+1;
+                mtv_setTimes.setText("每轮专注次数："+(mTimes>=10?mTimes:"0"+mTimes)+"次");
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                Log.d("setTimes","seekBar:"+seekBar.getProgress());
+            }
+        });
 
 
         showtime.setText((sHour>=10?sHour:"0"+sHour)+":"+(sMinute>=10?sMinute:"0"+sMinute)+":"+(sSecond>=10?sSecond:"0"+sSecond));
@@ -70,43 +145,26 @@ public class Clock extends AppCompatActivity implements View.OnClickListener{
     }
     @Override
     public void onClick(View view) {
-        if (view.getId()==R.id.btn_settime){
-//            点击设置时间
-            setTimeDialog();
-        }else if(view.getId()==R.id.btn_setrest){
-
-        }else if(view.getId()==R.id.btn_settimes){
-
-        }else if(view.getId()==R.id.btn_start){
+        if(view.getId()==R.id.btn_start){
             //对话窗口
             confirmStartDig();
         }else if(view.getId()==R.id.btn_exit){
             confirmEndDig();
         }
     }
-    public void setTime(int h,int m){
-        sHour=h;
-        sMinute=m;
-    }
-    public long getTime(){
-        time=sHour*60+sMinute;
-        time*=60000;
-        return time;
-    }
+//    public void setTime(long h,long m){
+//        sHour=h;
+//        sMinute=m;
+//    }
+//    public long getTime(long time){
+//        time=sHour*60+sMinute;
+//        time*=60000;
+//        return time;
+//    }
 
-    public void setTimeDialog(){
-        TimePickerDialog dialog = new TimePickerDialog(Clock.this, new TimePickerDialog.OnTimeSetListener() {
-            @Override
-            public void onTimeSet(TimePicker timePicker, int i, int i1) {
-                showtime.setText((i>=10?i:"0"+i)+":"+(i1>=10?i1:"0"+i1)+":"+"00");
-//                showtime.setText(i+"时"+i1+"分");
-                setTime(i,i1);
-            }
-        }, 0, 0, true);
-        dialog.show();
-    }
-    public void CountDownTimer(){
-        getTime();
+    public void CountDownTimer(long time,String type){
+//        getTime(time);
+        initTime();
         timer = new CountDown(time,500) {
             @Override
             public void onTick(long millisUntilFinished) {
@@ -127,19 +185,13 @@ public class Clock extends AppCompatActivity implements View.OnClickListener{
             }
             @Override
             public void onFinish() {
-//                Toast.makeText(Clock.this,"芜湖!完成一次专注！",Toast.LENGTH_SHORT).show();
-                sendSimpleNotify("番茄钟","DONE!");
+                Toast.makeText(Clock.this,"芜湖!完成一次专注！", Toast.LENGTH_SHORT).show();
+//                sendSimpleNotify("番茄钟","DONE!");
                 initTime();
                 showtime.setText((sHour>=10?sHour:"0"+sHour)+":"+(sMinute>=10?sMinute:"0"+sMinute)+":"+(sSecond>=10?sSecond:"0"+sSecond));
-                mbtn_start.setEnabled(true);
-                showtime.setEnabled(true);
-                msetRest.setEnabled(true);
-                msetTimes.setEnabled(true);
-                msetTime.setEnabled(true);
             }
         };
         timer.start();
-
 
     }
     void confirmStartDig() {
@@ -150,10 +202,17 @@ public class Clock extends AppCompatActivity implements View.OnClickListener{
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 mbtn_start.setEnabled(false);
-                msetTime.setEnabled(false);
-                msetRest.setEnabled(false);
-                msetTimes.setEnabled(false);
-                CountDownTimer();
+                msb_setRest.setEnabled(false);
+                msb_setTime.setEnabled(false);
+                msb_Times.setEnabled(false);
+                for(int j=1;j<=mTimes;j++){
+                    CountDownTimer(time,"Clock");
+                    CountDownTimer(rtime,"Rest");
+                }
+//                mbtn_start.setEnabled(true);
+//                msb_setRest.setEnabled(true);
+//                msb_setTime.setEnabled(true);
+//                msb_Times.setEnabled(true);
             }
         });
         builder.setNegativeButton("再等等...", new DialogInterface.OnClickListener() {
@@ -178,9 +237,9 @@ public class Clock extends AppCompatActivity implements View.OnClickListener{
                 initTime();
                 Clock.this.finish();
                 mbtn_start.setEnabled(true);
-                msetTime.setEnabled(true);
-                msetRest.setEnabled(true);
-                msetTimes.setEnabled(true);
+                msb_setRest.setEnabled(true);
+                msb_setTime.setEnabled(true);
+                msb_Times.setEnabled(true);
             }
         });
         builder.setNegativeButton("手误", new DialogInterface.OnClickListener() {

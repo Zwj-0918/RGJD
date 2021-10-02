@@ -15,40 +15,81 @@
         android:textAlignment="center"
         android:background="@color/tomato"
         tools:ignore="MissingConstraints" />
-    <Button
-        android:id="@+id/btn_settime"
-        android:layout_width="wrap_content"
+
+    <LinearLayout
+        android:id="@+id/pl_progresslayout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_time"
-        android:text="@string/clock_setTime"
-       />
-    <Button
-        android:id="@+id/btn_setrest"
-        android:layout_width="wrap_content"
+        android:orientation="horizontal" />
+    <TextView
+        android:id="@+id/tv_setTime"
+        android:layout_width="140dp"
         android:layout_height="wrap_content"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_settime"
-        android:text="@string/clock_setRest"
+        app:layout_constraintTop_toBottomOf="@id/pl_progresslayout"
         />
-    <Button
-        android:id="@+id/btn_settimes"
-        android:layout_width="wrap_content"
+    <SeekBar
+        android:id="@+id/sb_setTime"
+        android:layout_width="230dp"
         android:layout_height="wrap_content"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_setrest"
-        android:text="@string/clock_setTimes"
+        app:layout_constraintTop_toBottomOf="@id/tv_setTime"
+        android:maxHeight="5dp"
+        android:minHeight="5dp"
+        android:progressDrawable="@drawable/layout_seekbar"
+        android:thumb="@drawable/layout_seekbar_thumb" />
+
+    <TextView
+        android:id="@+id/tv_setRest"
+        android:layout_width="140dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/sb_setTime"
         />
+    <SeekBar
+        android:id="@+id/sb_setRest"
+        android:layout_width="230dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/tv_setRest"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:maxHeight="5dp"
+        android:minHeight="5dp"
+        android:progressDrawable="@drawable/layout_seekbar"
+        android:thumb="@drawable/layout_seekbar_thumb" />
+    <TextView
+        android:id="@+id/tv_setTimes"
+        android:layout_width="140dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/sb_setRest"
+        android:text="每轮专注次数：01次"
+        />
+    <SeekBar
+        android:id="@+id/sb_setTimes"
+        android:layout_width="230dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_setTimes"
+        android:maxHeight="5dp"
+        android:minHeight="5dp"
+        android:progressDrawable="@drawable/layout_seekbar"
+        android:thumb="@drawable/layout_seekbar_thumb" />
     <Button
         android:id="@+id/btn_start"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_settimes"
+        app:layout_constraintTop_toBottomOf="@+id/sb_setTimes"
         android:text="@string/colck_start"
         />
     <Button
@@ -60,14 +101,5 @@
         app:layout_constraintRight_toRightOf="parent"
         android:text="@string/clock_end"
         />
-    <LinearLayout
-        android:id="@+id/pl_progresslayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/btn_exit"
-        android:orientation="horizontal" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>
