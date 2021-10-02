@@ -27,6 +27,8 @@ import com.example.app1.tools.CircleAnimation;
 import com.example.app1.tools.CountDown;
 
 //问题：通知推送
+//多个倒计时器使用
+//开始与未开始可能需要两个布局
 public class Clock extends AppCompatActivity implements View.OnClickListener{
     private TextView showtime,mtv_setTime,mtv_setRest,mtv_setTimes;
     private Button mbtn_start;
