@@ -15,11 +15,13 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
 import com.example.app1.MainActivity;
 import com.example.app1.R;
+import com.example.app1.tools.CircleAnimation;
 import com.example.app1.tools.CountDown;
 
 //通知推送
@@ -29,13 +31,14 @@ public class Clock extends AppCompatActivity implements View.OnClickListener{
     private Button mbtn_exit;
     private Button msetTime,msetRest,msetTimes;
 
+
     boolean isExit=false;
     CountDown timer;
     //以分钟为单位
     long time;
     long sHour=0,sMinute=0,sSecond;
 
-    String mTime,mRest,mTimes;
+    long mTime,mRest,mTimes=1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +60,9 @@ public class Clock extends AppCompatActivity implements View.OnClickListener{
 
         msetTimes=findViewById(R.id.btn_settimes);
         msetTimes.setOnClickListener(this);
+
+
+
 
         showtime.setText((sHour>=10?sHour:"0"+sHour)+":"+(sMinute>=10?sMinute:"0"+sMinute)+":"+(sSecond>=10?sSecond:"0"+sSecond));
 
@@ -101,7 +107,6 @@ public class Clock extends AppCompatActivity implements View.OnClickListener{
     }
     public void CountDownTimer(){
         getTime();
-
         timer = new CountDown(time,500) {
             @Override
             public void onTick(long millisUntilFinished) {
