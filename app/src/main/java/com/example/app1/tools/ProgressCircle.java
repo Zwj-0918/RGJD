@@ -10,20 +10,21 @@ import android.view.View;
 import android.widget.RelativeLayout;
 
 public class ProgressCircle extends RelativeLayout {
-    private final static String TAG = "CircleAnimation";
-    private RectF mRect = new RectF(100,10,400,310);
-    private int mBeginAngle = 0,mEndAngle = 270;
+    private final static String TAG = "ProgressCircle";
+    private RectF mRect = new RectF(100,10,600,510);
+    private int mBeginAngle = 0,mEndAngle = 0;
     private int mFrontColor = 0xffff0000, mShadeColor = 0xffeeeeee;
-    private float mFrontLine = 10, mShadeLine = 10;
+    private float mFrontLine = 40, mShadeLine = 40;
     private Paint.Style mFrontStyle = Paint.Style.STROKE, mShadeStyle = Paint.Style.STROKE;
     private ShadeView mShadeView;
     private FrontView mFrontView;
     private int mRate = 2, mDrawTimes = 0, mInterval = 70, mFactor,mSeq = 0,mDrawingAngle = 0;
     private Context mContext;
 
-    public ProgressCircle(Context context) {
+    public ProgressCircle(Context context,int mEndAngle) {
         super(context);
         mContext=context;
+        this.mEndAngle=mEndAngle;
     }
 
 
