@@ -1,4 +1,4 @@
-package com.example.app1.ui;
+package com.example.app1.ui.Tomato;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -12,19 +12,15 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.os.CountDownTimer;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TimePicker;
-import android.widget.Toast;
 
 import com.example.app1.MainActivity;
 import com.example.app1.R;
+import com.example.app1.tools.CountDown;
 
 //通知推送
 public class Clock extends AppCompatActivity implements View.OnClickListener{
@@ -32,6 +28,7 @@ public class Clock extends AppCompatActivity implements View.OnClickListener{
     private Button mbtn_start;
     private Button mbtn_exit;
     private Button msetTime,msetRest,msetTimes;
+
     boolean isExit=false;
     CountDown timer;
     //以分钟为单位
@@ -62,6 +59,7 @@ public class Clock extends AppCompatActivity implements View.OnClickListener{
         msetTimes.setOnClickListener(this);
 
         showtime.setText((sHour>=10?sHour:"0"+sHour)+":"+(sMinute>=10?sMinute:"0"+sMinute)+":"+(sSecond>=10?sSecond:"0"+sSecond));
+
 
     }
     @Override

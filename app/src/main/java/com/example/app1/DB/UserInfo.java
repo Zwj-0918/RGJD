@@ -1,7 +1,9 @@
-package com.example.app1;
+package com.example.app1.DB;
 
 import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
+
+import com.example.app1.DB.DatabaseHelper;
 
 public class UserInfo {
     private DatabaseHelper dbHelper;

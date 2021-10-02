@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">跃迁之门</string>
+    <string name="tomato_name">番茄钟</string>
     <!-- Strings related to login -->
     <string name="prompt_username">用户名</string>
     <string name="prompt_phone">电话</string>
@@ -19,11 +20,12 @@
     <string name="login_failed">"登录失败！"</string>
     <string name="register_failed">"注册失败！"</string>
     <string name="title_activity_register">注册</string>
+    <!-- String related to bottom_bar -->
     <string name="title_activity_main">MainActivity</string>
     <string name="title_home">首页</string>
     <string name="title_dashboard">自律</string>
     <string name="title_notifications">个人</string>
-
+    <!-- String related to tomato_clock -->
     <string name="colck_start">开始</string>
     <string name="clock_end">结束计划</string>
     <string name="clock_setTime">专注时间</string>

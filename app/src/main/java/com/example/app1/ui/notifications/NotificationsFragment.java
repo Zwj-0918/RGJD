@@ -4,22 +4,21 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.example.app1.R;
 import com.example.app1.databinding.FragmentNotificationsBinding;
+import com.example.app1.tools.CircleAnimation;
 
 public class NotificationsFragment extends Fragment {
 
     private NotificationsViewModel notificationsViewModel;
     private FragmentNotificationsBinding binding;
-
+    private CircleAnimation mAnimation;
+    LinearLayout ll_layout;
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         notificationsViewModel =
@@ -35,6 +34,10 @@ public class NotificationsFragment extends Fragment {
 //                textView.setText(s);
 //            }
 //        });
+        ll_layout = binding.llLayout;
+        mAnimation = new CircleAnimation(getActivity());
+        ll_layout.addView(mAnimation);
+        mAnimation.render();
         return root;
     }
 

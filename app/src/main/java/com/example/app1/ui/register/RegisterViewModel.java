@@ -1,8 +1,6 @@
 package com.example.app1.ui.register;
 
 
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Build;
 import android.text.TextUtils;
 import android.util.Patterns;
@@ -12,15 +10,10 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.example.app1.DatabaseHelper;
 import com.example.app1.R;
 import com.example.app1.data.RegisterRepository;
 import com.example.app1.data.Result;
-import com.example.app1.data.model.LoggedInUser;
 import com.example.app1.data.model.RegisterUser;
-import com.example.app1.ui.register.RegisterUserView;
-import com.example.app1.ui.register.RegisterFormState;
-import com.example.app1.ui.register.RegisterResult;
 
 public class RegisterViewModel extends ViewModel {
 

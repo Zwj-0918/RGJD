@@ -19,7 +19,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -28,18 +27,12 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ProgressBar;
-import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.app1.DatabaseHelper;
-import com.example.app1.MainActivity;
+import com.example.app1.DB.DatabaseHelper;
 import com.example.app1.R;
-import com.example.app1.UserInfo;
-import com.example.app1.ui.login.LoginViewModel;
-import com.example.app1.ui.login.LoginViewModelFactory;
 import com.example.app1.databinding.ActivityLoginBinding;
-import com.example.app1.ui.register.RegisterActivity;
 
 public class LoginActivity extends AppCompatActivity {
 //    MODE_PRIVATE说明只有本应用可以使用

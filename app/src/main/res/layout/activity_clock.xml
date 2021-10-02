@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.Clock">
+    tools:context=".ui.Tomato.Clock">
     <TextView
         android:id="@+id/tv_time"
         android:layout_width="match_parent"
@@ -60,6 +60,7 @@
         app:layout_constraintRight_toRightOf="parent"
         android:text="@string/clock_end"
         />
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

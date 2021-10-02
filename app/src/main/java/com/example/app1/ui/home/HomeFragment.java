@@ -1,33 +1,20 @@
 package com.example.app1.ui.home;
 
-import android.app.AlertDialog;
-import android.app.TimePickerDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.os.CountDownTimer;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
-import android.widget.TimePicker;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.example.app1.DatabaseHelper;
-import com.example.app1.MainActivity;
 import com.example.app1.R;
 import com.example.app1.databinding.FragmentHomeBinding;
-import com.example.app1.ui.Clock;
+import com.example.app1.ui.Tomato.Clock;
 
 public class HomeFragment extends Fragment implements View.OnClickListener{
     private HomeViewModel homeViewModel;
