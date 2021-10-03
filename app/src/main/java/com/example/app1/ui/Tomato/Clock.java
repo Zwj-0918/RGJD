@@ -13,6 +13,7 @@ import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -27,7 +28,6 @@ import com.example.app1.tools.CircleAnimation;
 import com.example.app1.tools.CountDown;
 
 //问题：通知推送
-//多个倒计时器使用
 //开始与未开始可能需要两个布局
 public class Clock extends AppCompatActivity implements View.OnClickListener{
     private TextView showtime,mtv_setTime,mtv_setRest,mtv_setTimes;
@@ -38,10 +38,10 @@ public class Clock extends AppCompatActivity implements View.OnClickListener{
     boolean isExit=false;
     CountDown timer;
     //以分钟为单位
-    long time=25*600000,rtime=5*600000,ttime;
+    long time=25*60000,rtime=5*60000,ttime;
     //操作数据
     long sHour=0,sMinute=25,sSecond=0;
-
+    //
     long mTime=25,mRest=5,mTimes=1;
 
     //保留输入
@@ -62,10 +62,13 @@ public class Clock extends AppCompatActivity implements View.OnClickListener{
 
         mtv_setTime=findViewById(R.id.tv_setTime);
         mtv_setRest=findViewById(R.id.tv_setRest);
-//        mtv_setTimes=findViewById(R.id.tv_setTimes);
+
         msb_setTime=findViewById(R.id.sb_setTime);
         msb_setRest=findViewById(R.id.sb_setRest);
-//        msb_Times=findViewById(R.id.sb_setTimes);
+
+
+
+        initTime();
         showtime.setText((sHour>=10?sHour:"0"+sHour)+":"+(sMinute>=10?sMinute:"0"+sMinute)+":"+(sSecond>=10?sSecond:"0"+sSecond));
         mtv_setTime.setText("专注时间："+(mHour>=10?mHour:"0"+mHour)+"时"+(mMinute>=10?mMinute:"0"+mMinute)+"分");
         mtv_setRest.setText("休息时间："+(rHour>=10?rHour:"0"+rHour)+"时"+(rMinute>=10?rMinute:"0"+rMinute)+"分");
@@ -123,10 +126,8 @@ public class Clock extends AppCompatActivity implements View.OnClickListener{
 
             }
         });
-
-
-
     }
+    //点击事件监听
     @Override
     public void onClick(View view) {
         if(view.getId()==R.id.btn_start){
@@ -136,36 +137,22 @@ public class Clock extends AppCompatActivity implements View.OnClickListener{
             confirmEndDig();
         }
     }
-//    public void setTime(long h,long m){
-//        sHour=h;
-//        sMinute=m;
-//    }
-//    public long getTime(long time){
-//        time=sHour*60+sMinute;
-//        time*=60000;
-//        return time;
-//    }
-
+//倒计时器
     public void CountDownTimer(long time){
-//        getTime(time);
         initTime();
         timer = new CountDown(time,500) {
 
             @Override
             public void onTick(long millisUntilFinished) {
-//                Log.d("","倒计时:"+millisUntilFinished);
                 long ll=0;
-                if (millisUntilFinished==rtime){
-                    Toast.makeText(Clock.this,"休息时间到！",Toast.LENGTH_SHORT).show();
-                }
                 if(millisUntilFinished>=rtime){
                     ll=(millisUntilFinished-rtime)/1000;
                 }else{
                     ll= millisUntilFinished/1000;
                 }
-//                Log.d("","倒计时ll:"+millisUntilFinished);
-
-                Log.d("","倒计时ll22:"+millisUntilFinished);
+                if (millisUntilFinished==rtime){
+                    Toast.makeText(Clock.this,"休息时间到！",Toast.LENGTH_SHORT).show();
+                }
                 sHour=ll/3600;
                 ll-=sHour*3600;
                 sMinute=ll/60;
@@ -189,11 +176,12 @@ public class Clock extends AppCompatActivity implements View.OnClickListener{
                 mbtn_start.setEnabled(true);
                 msb_setRest.setEnabled(true);
                 msb_setTime.setEnabled(true);
-//                msb_Times.setEnabled(true);
             }
         };
         timer.start();
     }
+
+    //开始计时确认框
     void confirmStartDig() {
         AlertDialog.Builder builder = new AlertDialog.Builder(Clock.this);
         builder.setTitle("勇敢的小英雄");
@@ -204,7 +192,6 @@ public class Clock extends AppCompatActivity implements View.OnClickListener{
                 mbtn_start.setEnabled(false);
                 msb_setRest.setEnabled(false);
                 msb_setTime.setEnabled(false);
-//                msb_Times.setEnabled(false);
                 ttime=time+rtime;
                 Log.d("","time:"+time+",rtime:"+rtime+",ttime:"+ttime);
 
@@ -220,7 +207,7 @@ public class Clock extends AppCompatActivity implements View.OnClickListener{
         AlertDialog alert = builder.create();
         alert.show();
     }
-
+//结束计时确认框
     void confirmEndDig() {
         AlertDialog.Builder builder = new AlertDialog.Builder(Clock.this);
         builder.setTitle("勇敢的小英雄");
@@ -231,12 +218,11 @@ public class Clock extends AppCompatActivity implements View.OnClickListener{
                 //结束计时
                 isExit=true;
                 timer.cancel();
-                initTime();
-                Clock.this.finish();
                 mbtn_start.setEnabled(true);
                 msb_setRest.setEnabled(true);
                 msb_setTime.setEnabled(true);
-//                msb_Times.setEnabled(true);
+                initTime();
+                Clock.this.finish();
             }
         });
         builder.setNegativeButton("手误", new DialogInterface.OnClickListener() {
@@ -248,10 +234,24 @@ public class Clock extends AppCompatActivity implements View.OnClickListener{
         AlertDialog alert = builder.create();
         alert.show();
     }
+    //初始化操作数据
     void initTime(){
         sHour=0;
-        sMinute=0;
+        sMinute=25;
         sSecond=0;
+        time=25*60000;
+        rtime=5*60000;
+        ttime=0;
+        mTime=25;
+        mRest=5;
+        mTimes=1;
+
+        mHour=0;
+        mMinute=25;
+        mSecond=0;
+        rHour=0;
+        rMinute=5;
+        rSecond=0;
     }
     public void sendSimpleNotify(String title,String message){
         Intent clickIntent = new Intent(this, MainActivity.class);
@@ -266,6 +266,23 @@ public class Clock extends AppCompatActivity implements View.OnClickListener{
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.notify(R.string.app_name,notification);
     }
+
+//    @Override
+//    public void onBackPressed() {
+//        Log.d("BackPressed","返回了onBackPressed");
+//        super.onBackPressed();
+//    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if(event.getKeyCode()==KeyEvent.KEYCODE_BACK){
+            Log.d("BackPressed","返回了onBackPressed");
+            confirmEndDig();
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();

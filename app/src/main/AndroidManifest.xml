@@ -12,7 +12,8 @@
         <activity
             android:name=".ui.Tomato.Clock"
             android:label="@string/tomato_name"
-            android:exported="true" />
+            android:exported="true"
+            />
         <activity
             android:name=".MainActivity"
             android:exported="true"
