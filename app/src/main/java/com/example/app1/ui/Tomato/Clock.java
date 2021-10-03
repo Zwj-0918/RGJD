@@ -34,8 +34,8 @@ public class Clock extends AppCompatActivity implements View.OnClickListener{
     private Button mbtn_start;
     private Button mbtn_exit;
     private SeekBar msb_setTime,msb_setRest,msb_Times;
-
-    boolean isExit=false;
+    //是否在计时状态下
+    boolean isOnClock=false;
     CountDown timer;
     //以分钟为单位
     long time=25*60000,rtime=5*60000,ttime;
@@ -153,6 +153,7 @@ public class Clock extends AppCompatActivity implements View.OnClickListener{
                 if (millisUntilFinished==rtime){
                     Toast.makeText(Clock.this,"休息时间到！",Toast.LENGTH_SHORT).show();
                 }
+
                 sHour=ll/3600;
                 ll-=sHour*3600;
                 sMinute=ll/60;
@@ -172,6 +173,7 @@ public class Clock extends AppCompatActivity implements View.OnClickListener{
                 Toast.makeText(Clock.this,"芜湖!完成一次专注！", Toast.LENGTH_SHORT).show();
 //                sendSimpleNotify("番茄钟","DONE!");
                 initTime();
+                isOnClock=false;
                 showtime.setText((sHour>=10?sHour:"0"+sHour)+":"+(sMinute>=10?sMinute:"0"+sMinute)+":"+(sSecond>=10?sSecond:"0"+sSecond));
                 mbtn_start.setEnabled(true);
                 msb_setRest.setEnabled(true);
@@ -189,12 +191,12 @@ public class Clock extends AppCompatActivity implements View.OnClickListener{
         builder.setPositiveButton("嗯！", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
+                isOnClock=true;
                 mbtn_start.setEnabled(false);
                 msb_setRest.setEnabled(false);
                 msb_setTime.setEnabled(false);
                 ttime=time+rtime;
                 Log.d("","time:"+time+",rtime:"+rtime+",ttime:"+ttime);
-
                 CountDownTimer(ttime);
             }
         });
@@ -216,12 +218,12 @@ public class Clock extends AppCompatActivity implements View.OnClickListener{
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 //结束计时
-                isExit=true;
                 timer.cancel();
                 mbtn_start.setEnabled(true);
                 msb_setRest.setEnabled(true);
                 msb_setTime.setEnabled(true);
                 initTime();
+                isOnClock=false;
                 Clock.this.finish();
             }
         });
@@ -239,9 +241,11 @@ public class Clock extends AppCompatActivity implements View.OnClickListener{
         sHour=0;
         sMinute=25;
         sSecond=0;
+
         time=25*60000;
         rtime=5*60000;
         ttime=0;
+
         mTime=25;
         mRest=5;
         mTimes=1;
@@ -249,9 +253,11 @@ public class Clock extends AppCompatActivity implements View.OnClickListener{
         mHour=0;
         mMinute=25;
         mSecond=0;
+
         rHour=0;
         rMinute=5;
         rSecond=0;
+
     }
     public void sendSimpleNotify(String title,String message){
         Intent clickIntent = new Intent(this, MainActivity.class);
@@ -267,18 +273,14 @@ public class Clock extends AppCompatActivity implements View.OnClickListener{
         notificationManager.notify(R.string.app_name,notification);
     }
 
-//    @Override
-//    public void onBackPressed() {
-//        Log.d("BackPressed","返回了onBackPressed");
-//        super.onBackPressed();
-//    }
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if(event.getKeyCode()==KeyEvent.KEYCODE_BACK){
-            Log.d("BackPressed","返回了onBackPressed");
-            confirmEndDig();
-            return true;
+        if(event.getKeyCode()==KeyEvent.KEYCODE_BACK||event.getKeyCode()==KeyEvent.KEYCODE_HOME){
+            if(isOnClock){
+                confirmEndDig();
+                return true;
+            }
         }
         return super.onKeyDown(keyCode, event);
     }
