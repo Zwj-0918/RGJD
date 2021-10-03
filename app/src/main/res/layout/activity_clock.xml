@@ -34,7 +34,7 @@
         />
     <SeekBar
         android:id="@+id/sb_setTime"
-        android:layout_width="230dp"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -54,31 +54,11 @@
         />
     <SeekBar
         android:id="@+id/sb_setRest"
-        android:layout_width="230dp"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/tv_setRest"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        android:maxHeight="5dp"
-        android:minHeight="5dp"
-        android:progressDrawable="@drawable/layout_seekbar"
-        android:thumb="@drawable/layout_seekbar_thumb" />
-    <TextView
-        android:id="@+id/tv_setTimes"
-        android:layout_width="140dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/sb_setRest"
-        android:text="每轮专注次数：01次"
-        />
-    <SeekBar
-        android:id="@+id/sb_setTimes"
-        android:layout_width="230dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_setTimes"
         android:maxHeight="5dp"
         android:minHeight="5dp"
         android:progressDrawable="@drawable/layout_seekbar"
@@ -89,7 +69,7 @@
         android:layout_height="wrap_content"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/sb_setTimes"
+        app:layout_constraintTop_toBottomOf="@+id/sb_setRest"
         android:text="@string/colck_start"
         />
     <Button

@@ -18,8 +18,10 @@
         <entry key="..\:/AndroidStudioProject/APPTest/app/src/main/res/layout/activity_register.xml" value="0.1" />
         <entry key="..\:/AndroidStudioProject/APPTest/app/src/main/res/layout/fragment_clock.xml" value="0.264" />
         <entry key="..\:/AndroidStudioProject/APPTest/app/src/main/res/layout/fragment_dashboard.xml" value="0.264" />
+        <entry key="..\:/AndroidStudioProject/APPTest/app/src/main/res/layout/fragment_end.xml" value="0.14895833333333333" />
         <entry key="..\:/AndroidStudioProject/APPTest/app/src/main/res/layout/fragment_home.xml" value="0.264" />
         <entry key="..\:/AndroidStudioProject/APPTest/app/src/main/res/layout/fragment_notifications.xml" value="0.1296875" />
+        <entry key="..\:/AndroidStudioProject/APPTest/app/src/main/res/layout/fragment_start.xml" value="0.1" />
         <entry key="..\:/AndroidStudioProject/APPTest/app/src/main/res/menu/bottom_nav_menu.xml" value="0.1953125" />
       </map>
     </option>
@@ -33,7 +35,7 @@
   <component name="VisualizationToolProject">
     <option name="state">
       <ProjectState>
-        <option name="scale" value="0.536" />
+        <option name="scale" value="0.16354166666666667" />
       </ProjectState>
     </option>
   </component>

@@ -31,4 +31,6 @@
     <string name="clock_setTime">专注时间</string>
     <string name="clock_setTimes">专注次数</string>
     <string name="clock_setRest">每轮休息时间</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

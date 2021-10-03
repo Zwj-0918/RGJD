@@ -38,15 +38,15 @@ public class Clock extends AppCompatActivity implements View.OnClickListener{
     boolean isExit=false;
     CountDown timer;
     //以分钟为单位
-    long time,rtime;
+    long time=25*600000,rtime=5*600000,ttime;
     //操作数据
-    long sHour=0,sMinute=0,sSecond=0;
+    long sHour=0,sMinute=25,sSecond=0;
 
-    long mTime=0,mRest=0,mTimes=1;
+    long mTime=25,mRest=5,mTimes=1;
 
     //保留输入
     long mHour=0,mMinute=25,mSecond=0;
-    long rHour=0,rMinute=0,rSecond=0;
+    long rHour=0,rMinute=5,rSecond=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,14 +62,15 @@ public class Clock extends AppCompatActivity implements View.OnClickListener{
 
         mtv_setTime=findViewById(R.id.tv_setTime);
         mtv_setRest=findViewById(R.id.tv_setRest);
-        mtv_setTimes=findViewById(R.id.tv_setTimes);
+//        mtv_setTimes=findViewById(R.id.tv_setTimes);
         msb_setTime=findViewById(R.id.sb_setTime);
         msb_setRest=findViewById(R.id.sb_setRest);
-        msb_Times=findViewById(R.id.sb_setTimes);
+//        msb_Times=findViewById(R.id.sb_setTimes);
+        showtime.setText((sHour>=10?sHour:"0"+sHour)+":"+(sMinute>=10?sMinute:"0"+sMinute)+":"+(sSecond>=10?sSecond:"0"+sSecond));
         mtv_setTime.setText("专注时间："+(mHour>=10?mHour:"0"+mHour)+"时"+(mMinute>=10?mMinute:"0"+mMinute)+"分");
         mtv_setRest.setText("休息时间："+(rHour>=10?rHour:"0"+rHour)+"时"+(rMinute>=10?rMinute:"0"+rMinute)+"分");
         msb_setTime.setProgress(250/18);
-        msb_setRest.setProgress(100);
+        msb_setRest.setProgress(50);
         msb_setTime.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
@@ -78,13 +79,14 @@ public class Clock extends AppCompatActivity implements View.OnClickListener{
                 mMinute=mTime-mHour*60;
                 mtv_setTime.setText("专注时间："+(mHour>=10?mHour:"0"+mHour)+"时"+(mMinute>=10?mMinute:"0"+mMinute)+"分");
 
-                mRest= mTime*2/5;
+                mRest= mTime/5;
                 rHour=mRest/60;
                 rMinute=mRest-rHour*60;
                 mtv_setRest.setText("休息时间："+(rHour>=10?rHour:"0"+rHour)+"时"+(rMinute>=10?rMinute:"0"+rMinute)+"分");
-
+                msb_setRest.setProgress(50);
                 time=mHour*60+mMinute;
                 time*=60000;
+                rtime=time/5;
             }
 
             @Override
@@ -122,26 +124,6 @@ public class Clock extends AppCompatActivity implements View.OnClickListener{
             }
         });
 
-        msb_Times.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-                mTimes = seekBar.getProgress()/10+1;
-                mtv_setTimes.setText("每轮专注次数："+(mTimes>=10?mTimes:"0"+mTimes)+"次");
-            }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-                Log.d("setTimes","seekBar:"+seekBar.getProgress());
-            }
-        });
-
-
-        showtime.setText((sHour>=10?sHour:"0"+sHour)+":"+(sMinute>=10?sMinute:"0"+sMinute)+":"+(sSecond>=10?sSecond:"0"+sSecond));
 
 
     }
@@ -164,13 +146,26 @@ public class Clock extends AppCompatActivity implements View.OnClickListener{
 //        return time;
 //    }
 
-    public void CountDownTimer(long time,String type){
+    public void CountDownTimer(long time){
 //        getTime(time);
         initTime();
         timer = new CountDown(time,500) {
+
             @Override
             public void onTick(long millisUntilFinished) {
-                long ll= millisUntilFinished/1000;
+//                Log.d("","倒计时:"+millisUntilFinished);
+                long ll=0;
+                if (millisUntilFinished==rtime){
+                    Toast.makeText(Clock.this,"休息时间到！",Toast.LENGTH_SHORT).show();
+                }
+                if(millisUntilFinished>=rtime){
+                    ll=(millisUntilFinished-rtime)/1000;
+                }else{
+                    ll= millisUntilFinished/1000;
+                }
+//                Log.d("","倒计时ll:"+millisUntilFinished);
+
+                Log.d("","倒计时ll22:"+millisUntilFinished);
                 sHour=ll/3600;
                 ll-=sHour*3600;
                 sMinute=ll/60;
@@ -191,10 +186,13 @@ public class Clock extends AppCompatActivity implements View.OnClickListener{
 //                sendSimpleNotify("番茄钟","DONE!");
                 initTime();
                 showtime.setText((sHour>=10?sHour:"0"+sHour)+":"+(sMinute>=10?sMinute:"0"+sMinute)+":"+(sSecond>=10?sSecond:"0"+sSecond));
+                mbtn_start.setEnabled(true);
+                msb_setRest.setEnabled(true);
+                msb_setTime.setEnabled(true);
+//                msb_Times.setEnabled(true);
             }
         };
         timer.start();
-
     }
     void confirmStartDig() {
         AlertDialog.Builder builder = new AlertDialog.Builder(Clock.this);
@@ -206,15 +204,11 @@ public class Clock extends AppCompatActivity implements View.OnClickListener{
                 mbtn_start.setEnabled(false);
                 msb_setRest.setEnabled(false);
                 msb_setTime.setEnabled(false);
-                msb_Times.setEnabled(false);
-                for(int j=1;j<=mTimes;j++){
-                    CountDownTimer(time,"Clock");
-                    CountDownTimer(rtime,"Rest");
-                }
-//                mbtn_start.setEnabled(true);
-//                msb_setRest.setEnabled(true);
-//                msb_setTime.setEnabled(true);
-//                msb_Times.setEnabled(true);
+//                msb_Times.setEnabled(false);
+                ttime=time+rtime;
+                Log.d("","time:"+time+",rtime:"+rtime+",ttime:"+ttime);
+
+                CountDownTimer(ttime);
             }
         });
         builder.setNegativeButton("再等等...", new DialogInterface.OnClickListener() {
@@ -226,6 +220,7 @@ public class Clock extends AppCompatActivity implements View.OnClickListener{
         AlertDialog alert = builder.create();
         alert.show();
     }
+
     void confirmEndDig() {
         AlertDialog.Builder builder = new AlertDialog.Builder(Clock.this);
         builder.setTitle("勇敢的小英雄");
@@ -241,7 +236,7 @@ public class Clock extends AppCompatActivity implements View.OnClickListener{
                 mbtn_start.setEnabled(true);
                 msb_setRest.setEnabled(true);
                 msb_setTime.setEnabled(true);
-                msb_Times.setEnabled(true);
+//                msb_Times.setEnabled(true);
             }
         });
         builder.setNegativeButton("手误", new DialogInterface.OnClickListener() {
