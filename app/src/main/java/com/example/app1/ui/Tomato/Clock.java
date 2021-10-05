@@ -1,5 +1,6 @@
 package com.example.app1.ui.Tomato;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
@@ -11,7 +12,9 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Vibrator;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -81,15 +84,19 @@ public class Clock extends AppCompatActivity implements View.OnClickListener{
                 mHour=mTime/60;
                 mMinute=mTime-mHour*60;
                 mtv_setTime.setText("专注时间："+(mHour>=10?mHour:"0"+mHour)+"时"+(mMinute>=10?mMinute:"0"+mMinute)+"分");
+                showtime.setText((mHour>=10?mHour:"0"+mHour)+":"+(mMinute>=10?mMinute:"0"+mMinute)+":00");
 
                 mRest= mTime/5;
                 rHour=mRest/60;
                 rMinute=mRest-rHour*60;
                 mtv_setRest.setText("休息时间："+(rHour>=10?rHour:"0"+rHour)+"时"+(rMinute>=10?rMinute:"0"+rMinute)+"分");
                 msb_setRest.setProgress(50);
+
                 time=mHour*60+mMinute;
-                time*=60000;
                 rtime=time/5;
+                time*=60000;
+                rtime*=60000;
+
             }
 
             @Override
@@ -168,13 +175,16 @@ public class Clock extends AppCompatActivity implements View.OnClickListener{
                 }
                 Log.e("CountDown", millisUntilFinished + "");
             }
+            @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
             public void onFinish() {
+                Vibrator vibrator = (Vibrator)getSystemService(VIBRATOR_SERVICE);
+                vibrator.vibrate(1000);
                 Toast.makeText(Clock.this,"芜湖!完成一次专注！", Toast.LENGTH_SHORT).show();
 //                sendSimpleNotify("番茄钟","DONE!");
-                initTime();
+//                initTime();
                 isOnClock=false;
-                showtime.setText((sHour>=10?sHour:"0"+sHour)+":"+(sMinute>=10?sMinute:"0"+sMinute)+":"+(sSecond>=10?sSecond:"0"+sSecond));
+                showtime.setText((mHour>=10?mHour:"0"+mHour)+":"+(mMinute>=10?mMinute:"0"+mMinute)+":"+(mSecond>=10?mSecond:"0"+mSecond));
                 mbtn_start.setEnabled(true);
                 msb_setRest.setEnabled(true);
                 msb_setTime.setEnabled(true);
