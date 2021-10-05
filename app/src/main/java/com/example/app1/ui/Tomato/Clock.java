@@ -252,21 +252,21 @@ public class Clock extends AppCompatActivity implements View.OnClickListener{
         sMinute=25;
         sSecond=0;
 
-        time=25*60000;
-        rtime=5*60000;
-        ttime=0;
+//        time=25*60000;
+//        rtime=5*60000;
+//        ttime=0;
+//
+//        mTime=25;
+//        mRest=5;
+//        mTimes=1;
 
-        mTime=25;
-        mRest=5;
-        mTimes=1;
-
-        mHour=0;
-        mMinute=25;
-        mSecond=0;
-
-        rHour=0;
-        rMinute=5;
-        rSecond=0;
+//        mHour=0;
+//        mMinute=25;
+//        mSecond=0;
+//
+//        rHour=0;
+//        rMinute=5;
+//        rSecond=0;
 
     }
     public void sendSimpleNotify(String title,String message){
