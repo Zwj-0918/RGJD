@@ -10,4 +10,6 @@
 
     <color name="tomato">#e35c68</color>
     <color name="left">#5ba45b</color>
+    <color name="theme_color_bluehaze">#b8bfd6</color>
+    <color name="theme_color_indigo">#4675c0</color>
 </resources>

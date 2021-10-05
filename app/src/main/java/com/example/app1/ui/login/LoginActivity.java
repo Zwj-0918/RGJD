@@ -141,7 +141,27 @@ public class LoginActivity extends AppCompatActivity {
                 loginViewModel.loginDataChanged(passwordEditText.getText().toString(),usernameEditText.getText().toString());
             }
         };
-        usernameEditText.addTextChangedListener(afterTextChangedListener);
+//        usernameEditText.addTextChangedListener(afterTextChangedListener);
+        usernameEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                String username=mshared.getString("username","");
+                String passward=mshared.getString("passward","");
+                String usernameEdit=usernameEditText.getText().toString();
+                if(username.equals(usernameEdit))
+                    passwordEditText.setText(passward);
+            }
+        });
         passwordEditText.addTextChangedListener(afterTextChangedListener);
         passwordEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
 
@@ -157,11 +177,11 @@ public class LoginActivity extends AppCompatActivity {
         passwordEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean b) {
-                String username=mshared.getString("username","");
-                String passward=mshared.getString("passward","");
-                String usernameEdit=usernameEditText.getText().toString();
-                if(username.equals(usernameEdit))
-                    passwordEditText.setText(passward);
+//                String username=mshared.getString("username","");
+//                String passward=mshared.getString("passward","");
+//                String usernameEdit=usernameEditText.getText().toString();
+//                if(username.equals(usernameEdit))
+//                    passwordEditText.setText(passward);
             }
         });
 
@@ -171,8 +191,6 @@ public class LoginActivity extends AppCompatActivity {
                 String phone=usernameEditText.getText().toString();
                 String password=passwordEditText.getText().toString();
                 SQLiteDatabase db = dbHelper.getReadableDatabase();
-
-                //检验账号密码是否对应，还未完成
 
                 Cursor cursor = db.query("UserInfo",new String[]{"phone","password"},"phone=?",new String[]{phone},null,null,"password");
                 if(cursor.getCount()<=0){
