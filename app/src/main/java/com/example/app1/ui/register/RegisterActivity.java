@@ -7,8 +7,11 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -18,6 +21,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.annotation.StringRes;
@@ -26,9 +30,13 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.app1.DB.DatabaseHelper;
+import com.example.app1.DB.UserInfo;
 import com.example.app1.R;
 import com.example.app1.databinding.ActivityRegisterBinding;
+import com.example.app1.dbConnect;
 import com.example.app1.ui.login.LoginActivity;
+
+import java.util.HashMap;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -36,7 +44,20 @@ public class RegisterActivity extends AppCompatActivity {
 
     private RegisterViewModel registerViewModel;
     private ActivityRegisterBinding binding;
+    Handler handler = new Handler(new Handler.Callback() {
+        @Override
+        public boolean handleMessage(@NonNull Message msg) {
+            if (msg.what == 0){
+                Toast.makeText(RegisterActivity.this,"异常！注册失败！",Toast.LENGTH_SHORT).show();
+            }
+            else if (msg.what == 1){
+                Toast.makeText(RegisterActivity.this,"该手机号已经注册过！",Toast.LENGTH_SHORT).show();
+            }else if(msg.what ==2){
 
+            }
+            return false;
+        }
+    });
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -49,6 +70,7 @@ public class RegisterActivity extends AppCompatActivity {
                 .get(RegisterViewModel.class);
 //        将版本号更改为比一大的数可以调用upGrade方法
         dbHelper = new DatabaseHelper(this,"UserInfo.dp",null,2);
+
 
 
         final EditText usernameEditText = binding.username;
@@ -163,20 +185,51 @@ public class RegisterActivity extends AppCompatActivity {
             public void onClick(View v) {
 //        从数据库中查询手机号是否注册过
                 String phone=phoneEditText.getText().toString();
-                SQLiteDatabase db = dbHelper.getReadableDatabase();
+                String password = passwordEditText.getText().toString();
+                String username = usernameEditText.getText().toString();
+                boolean res = registerUser(phone,password,username);
 
-                Cursor cursor = db.rawQuery("select * from UserInfo where phone=?",new String[]{phone});
-                if (cursor.getCount() > 0){
-                    Toast.makeText(RegisterActivity.this,"该手机号已经注册过！",Toast.LENGTH_SHORT).show();
-                    cursor.close();
-                    return;
-                }
                 loadingProgressBar.setVisibility(View.VISIBLE);
                 registerViewModel.register(usernameEditText.getText().toString(),phoneEditText.getText().toString(),
                         passwordEditText.getText().toString(),repasswordEditText.getText().toString());
-
+                Log.d("register","res:"+ res);
+                if(res==false)
+                    Toast.makeText(RegisterActivity.this,"注册失败！",Toast.LENGTH_SHORT).show();
+                return;
             }
         });
+
+    }
+    public Boolean registerUser(String phone,String password,String username){
+        UserInfo userInfo = new UserInfo(phone, password, username);
+        Message msg = new Message();
+        new Thread(){
+            @Override
+            public void run(){
+                try {
+                    Message msg = new Message();
+                    HashMap<String,String> mp = dbConnect.getUserInfoByPhone(phone);
+                    Log.d("Register",mp+ "");
+                    Log.d("Register","mp:"+mp.size());
+                    if(mp.size()!=0){
+                        msg.what = 1;
+                    }else{
+                        if(dbConnect.addUserInfo(userInfo)){
+                            msg.what = 2;
+                        }
+                    }
+                    handler.sendMessage(msg);
+                    finish();
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+
+            }
+        }.start();
+        if(msg.what == 2)
+            return true;
+        else
+            return false;
     }
 
     private void updateUiWithUser(RegisterUserView model,String username,String phone,String password) {
@@ -187,15 +240,6 @@ public class RegisterActivity extends AppCompatActivity {
         // TODO : initiate successful logged in experience
         Toast.makeText(getApplicationContext(), welcome, Toast.LENGTH_LONG).show();
 
-        //将数据上传到后端数据库
-        SQLiteDatabase db=dbHelper.getWritableDatabase();
-        ContentValues values = new ContentValues();
-
-        values.put("username",username);
-        values.put("phone",phone);
-        values.put("password",password);
-        db.insert("UserInfo",null,values);
-        db.close();
 
     }
 

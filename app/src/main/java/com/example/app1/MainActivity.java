@@ -4,6 +4,8 @@ import static android.widget.Toast.LENGTH_LONG;
 
 import android.app.Fragment;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -28,11 +30,13 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.example.app1.databinding.ActivityMainBinding;
 
+import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
+    private static final String TAG = "MainActivity";
 
     private ActivityMainBinding binding;
     private BottomNavigationItemView mhome, mdash, mperson;
@@ -43,12 +47,15 @@ public class MainActivity extends AppCompatActivity {
 
     private int currentIndex = 0;
 
+    dbConnect mDbConnect = new dbConnect();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+
 
         BottomNavigationView navView = findViewById(R.id.nav_view);
         // Passing each menu ID as a set of Ids because each
